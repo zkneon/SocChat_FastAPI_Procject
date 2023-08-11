@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block header_right %}
+        <a class="simple-viewmore" href="/auth_pages/register">Register</a>
+{% endblock %}
+
+{% block content %}
+    <div id="erorr-msg" class="alert alert-danger" role="alert" style="display: none"></div>
+   <div class="contact-form center">
+    <from method="post">
+        <div class=contact-form-widget>
+            <div class="contact-form-widget bp3-html-table">
+                <label for="email">Email:</label>
+                <input class="contact-form center-block border-box-sizing" type="email" name="email" id="email">
+            </div>
+            <div class="contact-form-widget bp3-html-table">
+                <label for="pass">Password:</label>
+                <input class="contact-form center-block" type="password" name="pass" id="pass">
+            </div>
+            <div class="contact-form-widget bp3-html-table">
+                <input type="submit" class="contact-form-button-submit center-block" value="SingUp">
+            </div>
+
+        </div>
+
+    </from>
+
+    </div>
+{% endblock %}
+{% block footer %}
+
+    <script type="text/javascript" src="{{ url_for('static', path='js/log.js') }}"></script>
+
+{% endblock %}

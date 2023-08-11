@@ -1,0 +1,110 @@
+{% extends "auth_templates/base.html" %}
+{% block header_right %}
+    {% if request.path == "/postfeed" %}
+        <a id="btn-logout" class="simple-viewmore" href="">Logout</a>
+    {% else %}
+        <a class="simple-viewmore" href="/auth_pages/login">Login</a>
+        <a class="simple-viewmore" href="/auth_pages/register">Register</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    <main id="feed-view">
+    {% for data in post_data %}
+{#                <div>{{ data.user }}{{ user.id }}{{ data.like }}</div>#}
+
+        <div class="grid-posts">
+            <article class="hentry post-filter item0" itemscope="itemscope"
+                     style="width: 99%">
+                <div class="category-flex">
+                    <a class="post-filter-inner image-nos"
+                       href="">
+                    <span class="post-filter-link">
+                        <img alt="{{ data.title }}" class="snip-thumbnail lazy-img"
+                             src="{{ url_for("static", path="images/img.png") }}"
+                             itemprop="url">
+                    </span>
+                    </a>
+                    <div class="entery-category-box">
+                        <h2 class="entry-title vcard" itemprop="mainEntityOfPage"
+                            itemtype="https://schema.org/mainEntityOfPage"><a
+                                href=""
+                                title="{{ data.title }}">{{ data.title }}</a></h2>
+                        <div class="post-snip" itemprop="author" itemscope="itemscope"
+                             itemtype="https://schema.org/Person">
+                                        <span class="post-date published" datetime="{{ data.add_message_at }}"><i
+                                                class="bi bi-calendar2-minus"></i>{{ data.add_message_at }}</span>
+                            {% if (request.path == "/postfeed") and (user.id != data.user.id) %}
+                                <a id="like" href="/add_like"><i class="bi bi-hand-thumbs-up-fill"
+                                                             style="font-size: 20px; color: #ec001b">{{ data.like.like_q }}</i></a>
+                                <a id="like" href="/add_like"><i class="bi bi-hand-thumbs-down-fill"
+                                                             style="font-size: 20px; color: #3e3e3e">{{ data.like.dislike_q }}</i></a>
+                            {% else %}
+                                <span id="like"><i class="bi bi-hand-thumbs-up-fill"
+                                                             style="font-size: 20px; color: #ec001b">{{ data.like.like_q }}</i></span>
+                                <span id="like"><i class="bi bi-hand-thumbs-down-fill"
+                                                             style="font-size: 20px; color: #3e3e3e">{{ data.like.dislike_q }}</i></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="entery-snipt">
+                    <p class="post-snippet">{{ data.message }}</p>
+
+                    <div class="entery-flex">
+                        {% if (request.path == "/postfeed") and (user.id == data.user.id) %}
+
+                        <div class="entery-flex-labels"><a class="post-tag"
+                                                           href=""
+                                                           rel="tag">Edit Post</a>
+
+                            <a class="post-tag"
+                               href=""
+                               rel="tag">Delete Post</a>
+                        </div>
+                        {% endif %}
+                        <div class="entery-flex-author">
+                            <img alt="{{ data.id }}" class="post-author-image"
+                                 src="{{ url_for("static", path="images/smiling-little.png") }}">
+                            <span class="post-author" itemprop="name">{{ data.user.username }}</span>
+                        </div>
+                    </div>
+
+                </div>
+            </article>
+
+        </div>
+    {% endfor %}
+    </main>
+    <aside id="sidebar-container">
+        <div class="theiaStickySidebar">
+            <div class="sidebar section" id="sidebar">
+                <div class="widget Label" data-version="2" id="Label2">
+                    <div class="widget-title"><h3 class="title">Post Mind</h3></div>
+                    <div class="widget-content cloud-label">
+                            <div class="form m-2" content="{{ user.id }}">
+                                <form action="">
+                                    <div class="form-group row p-2">
+                                    <label for="title" class="form-label">Title</label>
+                                        <input class="form-control border-black"  type="text" name="title">
+                                    </div>
+                                    <div class="form-group row p-2">
+                                    <label for="message" class="form-label">Message</label>
+                                        <textarea class="form-control"  type="text" name="message"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Post It!</button>
+                                </form>
+                            </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+    </aside>
+
+    {% block footer %}
+        <script type="text/javascript" src="{{ url_for('static', path='js/logout.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', path='js/add_message.js') }}"></script>
+{#        <script type="text/javascript" src="{{ url_for('static', path='js/websocket.js') }}"></script>#}
+    {% endblock %}
+{% endblock %}
